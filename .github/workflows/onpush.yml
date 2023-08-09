@@ -28,9 +28,7 @@ jobs:
         id: changedAction
         uses: ./
         with:
-          workspace: package-a
-          from: HEAD^1
-          working-directory: example/yarn-workspaces
+          turbo-command: build
 
       # Validate that output is either true or false
       - name: Validate Action Output
