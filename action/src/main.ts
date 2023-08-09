@@ -21,6 +21,7 @@ const run = async (): Promise<void> => {
     debug(`Output from Turborepo: ${json}`);
 
     const parsedOutput = JSON.parse(json);
+
     const changed: string[] = parsedOutput.packages;
     info(`The following packages changed: ${changed.toString()}`);
 
