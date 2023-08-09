@@ -1,0 +1,51 @@
+name: "build-test"
+on: # rebuild any PRs and main branch changes
+  pull_request:
+  push:
+    branches:
+      - main
+      - "releases/*"
+
+jobs:
+  build: # make sure build/ci work properly
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build Code
+        run: yarn build
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Package
+        run: yarn package
+
+      - name: Run Tests
+        run: yarn test
+
+  test: # make sure the action works on a clean machine without building
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required to fetch range
+
+      # Run the action on the yarn-workspaces example
+      - name: Test Action
+        id: changedAction
+        uses: ./
+        with:
+          workspace: package-a
+          from: HEAD^1
+          working-directory: example/yarn-workspaces
+
+      # Validate that output is either true or false
+      - name: Validate Action Output
+        run: |
+          [[ "${{ steps.changedAction.outputs.changed }}" = "true" || "${{ steps.changedAction.outputs.changed }}" = "false" ]] && exit 0 || exit 1
