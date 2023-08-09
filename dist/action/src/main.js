@@ -15,8 +15,9 @@ const run = async () => {
         debug(`Output from Turborepo: ${json}`);
         const parsedOutput = JSON.parse(json);
         const changed = parsedOutput.packages;
-        info(`The following packages changed: ${changed.toString()}`);
-        setOutput("changed", !!changed.length);
+        info(``);
+        execSync(`echo The following packages changed: ${changed.toString()}`);
+        setOutput("changed", true);
     }
     catch (error) {
         if (error instanceof Error || typeof error === "string") {

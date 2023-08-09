@@ -32,9 +32,10 @@ const run = async (): Promise<void> => {
 
     const changed: string[] = parsedOutput.packages;
 
-    info(`The following packages changed: ${changed.toString()}`);
+    info(``);
+    execSync(`echo The following packages changed: ${changed.toString()}`);
 
-    setOutput("changed", !!changed.length);
+    setOutput("changed", true);
   } catch (error) {
     if (error instanceof Error || typeof error === "string") {
       setFailed(error);
