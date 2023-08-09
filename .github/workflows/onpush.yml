@@ -26,7 +26,7 @@ jobs:
       # Run the action on the yarn-workspaces example
       - name: Test Action
         id: changedAction
-        uses: ./
+        uses: .
         with:
           turbo-command: build
 
