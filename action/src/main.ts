@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 import { join } from "path";
-import { getInput, debug, setFailed, setOutput } from "@actions/core";
+import { getInput, debug, setFailed, setOutput, info } from "@actions/core";
 import * as github from "@actions/github";
 
 const run = async (): Promise<void> => {
@@ -21,7 +21,8 @@ const run = async (): Promise<void> => {
     debug(`Output from Turborepo: ${json}`);
 
     const parsedOutput = JSON.parse(json);
-    const changed = parsedOutput.packages;
+    const changed: string[] = parsedOutput.packages;
+    info(`The following packages changed: ${changed.toString()}`);
 
     setOutput("changed", changed);
   } catch (error) {
