@@ -1,0 +1,8 @@
+{
+    "name": "package-a",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "tsc -b"
+    }
+}

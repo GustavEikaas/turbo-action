@@ -1,32 +1,36 @@
 import { execSync } from "child_process";
 import { join } from "path";
-import { getInput, debug, setFailed, setOutput } from "@actions/core";
+import {
+  getInput,
+  debug,
+  setFailed,
+  setOutput,
+  info,
+  setCommandEcho,
+} from "@actions/core";
 import * as github from "@actions/github";
 
 const run = async (): Promise<void> => {
   try {
-    // Get Inputs
-    const workspace = getInput("workspace", { required: true });
-    const from = getInput("from", { required: true });
-    const to = getInput("to", { required: true });
-    const workingDirectory = getInput("working-directory", { required: true });
+    setCommandEcho(true);
+    const turboCommand = getInput("turbo-command", { required: true });
+    const workingDirectory =
+      getInput("working-directory", { required: false }) ?? "./";
 
-    debug(
-      `Inputs: ${JSON.stringify({ workspace, from, to, workingDirectory })}`
-    );
+    const cwd = join(process.cwd(), workingDirectory);
 
-    const json = await execSync(
-      `npx turbo run build --filter="${workspace}...[${from}...${to}]" --dry-run=json`,
-      {
-        cwd: join(process.cwd(), workingDirectory),
-        encoding: "utf-8",
-      }
-    );
+    debug(`Running command: ${turboCommand} in directory ${workingDirectory}`);
+
+    const json = execSync(`npx turbo run ${turboCommand} --dry-run=json`, {
+      cwd: cwd,
+      encoding: "utf-8",
+    });
 
     debug(`Output from Turborepo: ${json}`);
 
     const parsedOutput = JSON.parse(json);
-    const changed = parsedOutput.packages.includes(workspace);
+
+    const changed = !!parsedOutput.packages.length;
 
     setOutput("changed", changed);
   } catch (error) {

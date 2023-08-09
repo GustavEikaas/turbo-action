@@ -1,0 +1,4 @@
+
+> package-b@ build C:\Users\Gustav\repo\turbo-action\test-monorepo\packages\package-b
+> tsc -b
+

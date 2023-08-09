@@ -1,0 +1,13 @@
+{
+  "name": "test-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "turbo": "1.9.9"
+  }
+}
