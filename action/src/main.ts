@@ -35,7 +35,7 @@ const run = async (): Promise<void> => {
     info(``);
     execSync(`echo The following packages changed: ${changed.toString()}`);
 
-    setOutput("changed", true);
+    setOutput("changed", changed.length ? "true" : "false");
   } catch (error) {
     if (error instanceof Error || typeof error === "string") {
       setFailed(error);
