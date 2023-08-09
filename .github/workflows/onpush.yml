@@ -23,10 +23,16 @@ jobs:
         with:
           fetch-depth: 0 # Required to fetch range
 
+      - name: Install Dependencies
+        run: npx pnpm i
+
+      - name: Build Code
+        run: npx pnpm build
+
       # Run the action on the yarn-workspaces example
       - name: Test Action
         id: changedAction
-        uses: ./action.yml
+        uses: ./
         with:
           turbo-command: build
 
