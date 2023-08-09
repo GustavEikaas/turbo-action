@@ -35,6 +35,7 @@ jobs:
         uses: ./
         with:
           turbo-command: build
+          working-directory: ./test-monorepo
 
       # Validate that output is either true or false
       - name: Validate Action Output
