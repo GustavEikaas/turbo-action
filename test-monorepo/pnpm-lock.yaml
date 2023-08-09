@@ -4,10 +4,17 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-devDependencies:
-  turbo:
-    specifier: 1.9.9
-    version: 1.9.9
+importers:
+
+  .:
+    devDependencies:
+      turbo:
+        specifier: 1.9.9
+        version: 1.9.9
+
+  packages/package-a: {}
+
+  packages/package-b: {}
 
 packages:
 
