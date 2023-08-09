@@ -30,12 +30,9 @@ const run = async (): Promise<void> => {
 
     const parsedOutput = JSON.parse(json);
 
-    const changed: string[] = parsedOutput.packages;
+    const changed = !!parsedOutput.packages.length;
 
-    info(``);
-    execSync(`echo The following packages changed: ${changed.toString()}`);
-
-    setOutput("changed", changed.length ? "true" : "false");
+    setOutput("changed", changed);
   } catch (error) {
     if (error instanceof Error || typeof error === "string") {
       setFailed(error);
