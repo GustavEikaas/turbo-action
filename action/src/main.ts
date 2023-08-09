@@ -1,10 +1,18 @@
 import { execSync } from "child_process";
 import { join } from "path";
-import { getInput, debug, setFailed, setOutput, info } from "@actions/core";
+import {
+  getInput,
+  debug,
+  setFailed,
+  setOutput,
+  info,
+  setCommandEcho,
+} from "@actions/core";
 import * as github from "@actions/github";
 
 const run = async (): Promise<void> => {
   try {
+    setCommandEcho(true);
     const turboCommand = getInput("turbo-command", { required: true });
     const workingDirectory =
       getInput("working-directory", { required: false }) ?? "./";
@@ -23,9 +31,10 @@ const run = async (): Promise<void> => {
     const parsedOutput = JSON.parse(json);
 
     const changed: string[] = parsedOutput.packages;
+
     info(`The following packages changed: ${changed.toString()}`);
 
-    setOutput("changed", changed);
+    setOutput("changed", !!changed.length);
   } catch (error) {
     if (error instanceof Error || typeof error === "string") {
       setFailed(error);
