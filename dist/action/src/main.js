@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 import { join } from "path";
-import { getInput, debug, setFailed, setOutput, info, setCommandEcho, } from "@actions/core";
+import { getInput, debug, setFailed, setOutput, setCommandEcho, } from "@actions/core";
 const run = async () => {
     try {
         setCommandEcho(true);
@@ -14,10 +14,8 @@ const run = async () => {
         });
         debug(`Output from Turborepo: ${json}`);
         const parsedOutput = JSON.parse(json);
-        const changed = parsedOutput.packages;
-        info(``);
-        execSync(`echo The following packages changed: ${changed.toString()}`);
-        setOutput("changed", true);
+        const changed = !!parsedOutput.packages.length;
+        setOutput("changed", changed);
     }
     catch (error) {
         if (error instanceof Error || typeof error === "string") {
